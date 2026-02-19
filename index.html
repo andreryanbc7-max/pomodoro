@@ -12,7 +12,6 @@
   --border: #121212;
   --text: #ffffff;
   --muted: #5a5a5a;
-  --accent: #ffffff;
 }
 
 * {
@@ -34,24 +33,18 @@ body {
 .container {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 28px;
-  padding: 50px 60px;
-  width: 380px;
-  text-align: center;
+  border-radius: 30px;
+  padding: 40px 60px;
+  width: 750px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.title {
-  font-size: 0.75rem;
-  letter-spacing: 4px;
-  color: var(--muted);
-  margin-bottom: 35px;
-}
-
-.timer-wrapper {
+.left {
   position: relative;
   width: 220px;
   height: 220px;
-  margin: 0 auto 35px auto;
 }
 
 svg {
@@ -69,7 +62,7 @@ circle {
 }
 
 .progress-circle {
-  stroke: var(--accent);
+  stroke: white;
   stroke-dasharray: 628;
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 1s linear;
@@ -80,21 +73,31 @@ circle {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2.8rem;
+  font-size: 2.6rem;
   font-weight: 200;
-  letter-spacing: 2px;
+}
+
+.right {
+  width: 400px;
+}
+
+.title {
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  color: var(--muted);
+  margin-bottom: 30px;
 }
 
 .controls {
   display: flex;
-  justify-content: center;
-  gap: 12px;
+  gap: 15px;
+  margin-bottom: 30px;
 }
 
 button {
   background: transparent;
   border: 1px solid var(--border);
-  padding: 10px 24px;
+  padding: 10px 22px;
   color: var(--text);
   border-radius: 10px;
   cursor: pointer;
@@ -108,10 +111,8 @@ button:hover {
 }
 
 .mode {
-  margin-top: 30px;
   display: flex;
-  justify-content: center;
-  gap: 15px;
+  gap: 20px;
   font-size: 0.7rem;
   color: var(--muted);
 }
@@ -124,7 +125,6 @@ button:hover {
 .mode span.active {
   color: var(--text);
 }
-
 </style>
 </head>
 
@@ -132,26 +132,28 @@ button:hover {
 
 <div class="container">
 
-<div class="title">FOCUS MODE</div>
+  <div class="left">
+    <svg width="220" height="220">
+      <circle class="bg-circle" cx="110" cy="110" r="100"></circle>
+      <circle class="progress-circle" cx="110" cy="110" r="100" id="progress"></circle>
+    </svg>
+    <div class="time" id="time">25:00</div>
+  </div>
 
-<div class="timer-wrapper">
-  <svg width="220" height="220">
-    <circle class="bg-circle" cx="110" cy="110" r="100"></circle>
-    <circle class="progress-circle" cx="110" cy="110" r="100" id="progress"></circle>
-  </svg>
-  <div class="time" id="time">25:00</div>
-</div>
+  <div class="right">
+    <div class="title">FOCUS MODE</div>
 
-<div class="controls">
-  <button onclick="startPause()" id="startBtn">START</button>
-  <button onclick="resetTimer()">RESET</button>
-</div>
+    <div class="controls">
+      <button onclick="startPause()" id="startBtn">START</button>
+      <button onclick="resetTimer()">RESET</button>
+    </div>
 
-<div class="mode">
-  <span onclick="setMode('focus')" id="focusMode" class="active">FOCUS</span>
-  <span onclick="setMode('short')" id="shortMode">SHORT</span>
-  <span onclick="setMode('long')" id="longMode">LONG</span>
-</div>
+    <div class="mode">
+      <span onclick="setMode('focus')" id="focusMode" class="active">FOCUS</span>
+      <span onclick="setMode('short')" id="shortMode">SHORT</span>
+      <span onclick="setMode('long')" id="longMode">LONG</span>
+    </div>
+  </div>
 
 </div>
 
@@ -169,7 +171,6 @@ const startBtn = document.getElementById("startBtn");
 
 const radius = 100;
 const circumference = 2 * Math.PI * radius;
-
 progressCircle.style.strokeDasharray = circumference;
 
 function updateUI() {
